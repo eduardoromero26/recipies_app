@@ -27,12 +27,9 @@ flutter:
     - family: Nunito-Sans
       fonts:
         - asset: assets/fonts/Nunito-Sans.ttf
-    #       - asset: fonts/Schyler-Italic.ttf
-    #         style: italic
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto.ttf
-
     - family: Rubik
       fonts:
         - asset: assets/fonts/Rubik.ttf
