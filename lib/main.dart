@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recipies_app/routes/router_generator.dart';
 import 'package:recipies_app/utils/route_screens.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: "assets/env/.env.dev");
   runApp(const MyApp());
 }
 
