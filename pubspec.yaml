@@ -27,9 +27,6 @@ flutter:
     - family: Nunito-Sans
       fonts:
         - asset: assets/fonts/Nunito-Sans.ttf
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto.ttf
     - family: Rubik
       fonts:
         - asset: assets/fonts/Rubik.ttf
