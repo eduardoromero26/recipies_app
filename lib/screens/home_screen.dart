@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipies_app/style/font_styles.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,7 +11,10 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Recipies App'),
       ),
       body: const Center(
-        child: Text('Home Screen'),
+        child: Text(
+          'Home Screen',
+          style: TypographyTheme.fontSemi24Px,
+        ),
       ),
     );
   }
