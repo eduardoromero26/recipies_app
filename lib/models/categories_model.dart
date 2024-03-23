@@ -1,24 +1,19 @@
-class CategoriesModel {
-  CategoriesModel({
+class MealCategoriesModel {
+  final Map<String, dynamic> categories;
+
+  MealCategoriesModel({
     required this.categories,
   });
-  late final List<Categories> categories;
 
-  CategoriesModel.fromJson(Map<String, dynamic> json) {
-    categories = List.from(json['categories'])
-        .map((e) => Categories.fromJson(e))
-        .toList();
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['categories'] = categories.map((e) => e.toJson()).toList();
-    return _data;
+  factory MealCategoriesModel.fromJson(Map<String, dynamic> json) {
+    return MealCategoriesModel(
+      categories: json['categories'],
+    );
   }
 }
 
-class Categories {
-  Categories({
+class MealCategory {
+  MealCategory({
     required this.idCategory,
     required this.strCategory,
     required this.strCategoryThumb,
@@ -29,7 +24,7 @@ class Categories {
   late final String strCategoryThumb;
   late final String strCategoryDescription;
 
-  Categories.fromJson(Map<String, dynamic> json) {
+  MealCategory.fromJson(Map<String, dynamic> json) {
     idCategory = json['idCategory'];
     strCategory = json['strCategory'];
     strCategoryThumb = json['strCategoryThumb'];

@@ -1,22 +1,19 @@
-class MealModel {
-  MealModel({
+class MealsModel {
+  final Map<String, dynamic> meals;
+
+  MealsModel({
     required this.meals,
   });
-  late final List<Meals> meals;
 
-  MealModel.fromJson(Map<String, dynamic> json) {
-    meals = List.from(json['meals']).map((e) => Meals.fromJson(e)).toList();
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['meals'] = meals.map((e) => e.toJson()).toList();
-    return _data;
+  factory MealsModel.fromJson(Map<String, dynamic> json) {
+    return MealsModel(
+      meals: json['meals'],
+    );
   }
 }
 
-class Meals {
-  Meals({
+class Meal {
+  Meal({
     required this.idMeal,
     required this.strMeal,
     this.strDrinkAlternate,
@@ -24,8 +21,8 @@ class Meals {
     required this.strArea,
     required this.strInstructions,
     required this.strMealThumb,
-    required this.strTags,
-    required this.strYoutube,
+    this.strTags,
+    this.strYoutube,
     required this.strIngredient1,
     this.strIngredient2,
     this.strIngredient3,
@@ -78,8 +75,8 @@ class Meals {
   late final String strArea;
   late final String strInstructions;
   late final String strMealThumb;
-  late final String strTags;
-  late final String strYoutube;
+  late final String? strTags;
+  late final String? strYoutube;
   late final String strIngredient1;
   late final String? strIngredient2;
   late final String? strIngredient3;
@@ -125,7 +122,7 @@ class Meals {
   late final String? strCreativeCommonsConfirmed;
   late final String? dateModified;
 
-  Meals.fromJson(Map<String, dynamic> json) {
+  Meal.fromJson(Map<String, dynamic> json) {
     idMeal = json['idMeal'];
     strMeal = json['strMeal'];
     strDrinkAlternate = null;
@@ -150,11 +147,11 @@ class Meals {
     strIngredient13 = json['strIngredient13'];
     strIngredient14 = json['strIngredient14'];
     strIngredient15 = json['strIngredient15'];
-    strIngredient16 = null;
-    strIngredient17 = null;
-    strIngredient18 = null;
-    strIngredient19 = null;
-    strIngredient20 = null;
+    strIngredient16 = json['strIngredient16'];
+    strIngredient17 = json['strIngredient17'];
+    strIngredient18 = json['strIngredient18'];
+    strIngredient19 = json['strIngredient19'];
+    strIngredient20 = json['strIngredient20'];
     strMeasure1 = json['strMeasure1'];
     strMeasure2 = json['strMeasure2'];
     strMeasure3 = json['strMeasure3'];
@@ -170,15 +167,15 @@ class Meals {
     strMeasure13 = json['strMeasure13'];
     strMeasure14 = json['strMeasure14'];
     strMeasure15 = json['strMeasure15'];
-    strMeasure16 = null;
-    strMeasure17 = null;
-    strMeasure18 = null;
-    strMeasure19 = null;
-    strMeasure20 = null;
-    strSource = null;
-    strImageSource = null;
-    strCreativeCommonsConfirmed = null;
-    dateModified = null;
+    strMeasure16 = json['strMeasure16'];
+    strMeasure17 = json['strMeasure17'];
+    strMeasure18 = json['strMeasure18'];
+    strMeasure19 = json['strMeasure19'];
+    strMeasure20 = json['strMeasure20'];
+    strSource = json['strSource'];
+    strImageSource = json['strImageSource'];
+    strCreativeCommonsConfirmed = json['strCreativeCommonsConfirmed'];
+    dateModified = json['dateModified'];
   }
 
   Map<String, dynamic> toJson() {

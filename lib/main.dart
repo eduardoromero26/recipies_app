@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipies_app/bloc/recipies_bloc.dart';
 import 'package:recipies_app/routes/router_generator.dart';
 import 'package:recipies_app/utils/route_screens.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   await dotenv.load(fileName: "assets/env/.env.dev");
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => RecipiesBloc(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
