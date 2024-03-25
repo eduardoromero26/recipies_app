@@ -6,10 +6,8 @@ import 'package:recipies_app/models/meal_model.dart';
 import 'package:recipies_app/style/font_styles.dart';
 
 class DetailsMealScreen extends StatefulWidget {
-  final String mealId;
-  final String imageUrl;
-  const DetailsMealScreen(
-      {super.key, required this.mealId, required this.imageUrl});
+  final Meal selectedMeal;
+  const DetailsMealScreen({super.key, required this.selectedMeal});
 
   @override
   State<DetailsMealScreen> createState() => _DetailsMealScreenState();
@@ -18,7 +16,6 @@ class DetailsMealScreen extends StatefulWidget {
 class _DetailsMealScreenState extends State<DetailsMealScreen> {
   @override
   void initState() {
-    context.read<RecipiesBloc>().add(GetMealByIdEvent(id: widget.mealId));
     super.initState();
   }
 
@@ -32,9 +29,9 @@ class _DetailsMealScreenState extends State<DetailsMealScreen> {
           floating: false,
           flexibleSpace: FlexibleSpaceBar(
             background: Hero(
-              tag: widget.mealId,
+              tag: widget.selectedMeal.idMeal,
               child: CachedNetworkImage(
-                imageUrl: widget.imageUrl,
+                imageUrl: widget.selectedMeal.strMealThumb,
                 fit: BoxFit.cover,
                 placeholder: (context, url) =>
                     const CircularProgressIndicator(),
@@ -55,22 +52,23 @@ class _DetailsMealScreenState extends State<DetailsMealScreen> {
             }, loadingStarted: () {
               return const SliverFillRemaining(
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: SizedBox(
+                    width: 100.0,
+                    height: 100.0,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 6.0,
+                    ),
+                  ),
                 ),
               );
             }, loadedSuccess: (MealsModel? meals) {
               return BlocBuilder<RecipiesBloc, RecipiesState>(
                   builder: (context, state) {
                 return SliverToBoxAdapter(
-                  child: context.read<RecipiesBloc>().selectedMeal.meals != null
+                  child: widget.selectedMeal.strMeal.isNotEmpty
                       ? Column(
                           children: [
-                            Text(
-                                context
-                                    .read<RecipiesBloc>()
-                                    .selectedMeal
-                                    .meals![0]
-                                    .strMeal,
+                            Text(widget.selectedMeal.strMeal,
                                 style: TypographyTheme.fontSemi20Px),
                             SizedBox(height: 1000),
                           ],

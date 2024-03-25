@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipies_app/bloc/recipies_bloc.dart';
 import 'package:recipies_app/routes/router_generator.dart';
+import 'package:recipies_app/style/color_theme.dart';
 import 'package:recipies_app/utils/route_screens.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Recipies App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: ColorsTheme.primaryColor),
         useMaterial3: true,
       ),
       initialRoute: RouteScreens.home,

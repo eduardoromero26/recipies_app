@@ -13,8 +13,7 @@ class RouteGenerator {
         final args = settings.arguments as Meal;
         return MaterialPageRoute(
           builder: (_) => DetailsMealScreen(
-            mealId: args.idMeal,
-            imageUrl: args.strMealThumb,
+            selectedMeal: args,
           ),
         );
       default:

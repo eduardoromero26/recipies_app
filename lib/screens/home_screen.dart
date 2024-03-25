@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:recipies_app/bloc/recipies_bloc.dart';
 import 'package:recipies_app/models/meal_model.dart';
 import 'package:recipies_app/style/font_styles.dart';
@@ -71,11 +72,17 @@ class _HomeScreenState extends State<HomeScreen> {
             }, loadingStarted: () {
               return const SliverFillRemaining(
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: SizedBox(
+                    width: 100.0,
+                    height: 100.0,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 6.0,
+                    ),
+                  ),
                 ),
               );
             }, loadedSuccess: (MealsModel? meals) {
-              return context.read<RecipiesBloc>().mealList != null
+              return context.read<RecipiesBloc>().mealList!.meals!.isNotEmpty
                   ? BlocBuilder<RecipiesBloc, RecipiesState>(
                       builder: (context, state) {
                       return SliverList.builder(
@@ -121,12 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             trailing: const Icon(Icons.arrow_forward_ios),
                             onTap: () {
-                              context.read<RecipiesBloc>().add(GetMealByIdEvent(
-                                  id: context
-                                      .read<RecipiesBloc>()
-                                      .mealList!
-                                      .meals![index]
-                                      .idMeal));
                               Navigator.pushNamed(context, RouteScreens.details,
                                   arguments: context
                                       .read<RecipiesBloc>()
@@ -137,17 +138,31 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       );
                     })
-                  : const SliverFillRemaining(
-                      child: Center(
-                        child: Text('No meals found'),
-                      ),
-                    );
+                  : SliverFillRemaining(
+                      child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Lottie.asset('assets/lotties/not_found_lottie.json',
+                            width: 320, height: 320),
+                        Text(
+                          'Not meals founded: ${context.read<RecipiesBloc>().searchFieldController.text}',
+                          style: TypographyTheme.fontSemi20Px,
+                        ),
+                      ],
+                    ));
             }, loadedFailed: (String message) {
-              return const SliverFillRemaining(
-                child: Center(
-                  child: Text('ERROR STATE'),
-                ),
-              );
+              return SliverFillRemaining(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Lottie.asset('assets/lotties/error_lottie.json',
+                      width: 200, height: 200),
+                  const Text(
+                    'Error loading meals',
+                    style: TypographyTheme.fontRegular16Px,
+                  ),
+                ],
+              ));
             });
           },
         ),
