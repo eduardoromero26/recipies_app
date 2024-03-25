@@ -44,14 +44,24 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.white,
           padding: const EdgeInsets.all(16.0),
           child: TextField(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              hintText: 'Search for meals',
-              hintStyle: TypographyTheme.fontMedium20Px,
-              prefixIcon: Icon(Icons.search),
-            ),
-            onChanged: (value) {
+            controller: context.read<RecipiesBloc>().searchFieldController,
+            decoration: InputDecoration(
+                border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                hintText: 'Search for meals',
+                hintStyle: TypographyTheme.fontMedium20Px,
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      context
+                          .read<RecipiesBloc>()
+                          .add(ResetSearchControllerEvent());
+                      context
+                          .read<RecipiesBloc>()
+                          .add(SearchMealByNameEvent(name: ''));
+                    })),
+            onSubmitted: (value) {
               context
                   .read<RecipiesBloc>()
                   .add(SearchMealByNameEvent(name: value));

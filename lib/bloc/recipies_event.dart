@@ -11,3 +11,5 @@ class SearchMealByNameEvent extends RecipiesEvent {
   final String name;
   SearchMealByNameEvent({required this.name});
 }
+
+class ResetSearchControllerEvent extends RecipiesEvent {}

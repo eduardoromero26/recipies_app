@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:recipies_app/models/meal_model.dart';
@@ -10,14 +12,15 @@ part 'recipies_bloc.freezed.dart';
 
 class RecipiesBloc extends Bloc<RecipiesEvent, RecipiesState> {
   final BaseApi _baseApi = BaseApi();
+  TextEditingController searchFieldController = TextEditingController();
 
   RecipiesBloc() : super(RecipiesState.initial()) {
     on<SearchMealByNameEvent>((event, emit) async {
       emit(RecipiesState.loadingStarted());
       try {
-        final Map<String, dynamic> json = await _baseApi
+        final Response<dynamic> json = await _baseApi
             .getFromApi('${Endpoints.searchMealByName}${event.name}');
-        final MealsModel meals = MealsModel.fromJson(json);
+        final MealsModel meals = MealsModel.fromJson(json.data);
         meals.meals != null
             ? emit(RecipiesState.loadedSuccess(meals))
             : emit(RecipiesState.loadedFailed('No meals found'));
@@ -34,6 +37,9 @@ class RecipiesBloc extends Bloc<RecipiesEvent, RecipiesState> {
       } catch (e) {
         emit(RecipiesState.loadedFailed(e.toString()));
       }
+    });
+    on<ResetSearchControllerEvent>((event, emit) {
+      searchFieldController.clear();
     });
   }
 }
