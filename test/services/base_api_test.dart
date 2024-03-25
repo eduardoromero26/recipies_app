@@ -15,9 +15,6 @@ void main() async {
 
   test('getFromApi throws DioException on error', () async {
     final response = await api.getFromApi('error');
-    expect(
-      response,
-      isA<DioException>(),
-    );
+    expect(response.type, DioExceptionType.badResponse);
   });
 }

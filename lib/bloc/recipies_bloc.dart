@@ -12,6 +12,8 @@ part 'recipies_bloc.freezed.dart';
 
 class RecipiesBloc extends Bloc<RecipiesEvent, RecipiesState> {
   final BaseApi _baseApi = BaseApi();
+  MealsModel selectedMeal = MealsModel();
+  MealsModel? mealList = MealsModel();
   TextEditingController searchFieldController = TextEditingController();
 
   RecipiesBloc() : super(RecipiesState.initial()) {
@@ -20,9 +22,9 @@ class RecipiesBloc extends Bloc<RecipiesEvent, RecipiesState> {
       try {
         final Response<dynamic> json = await _baseApi
             .getFromApi('${Endpoints.searchMealByName}${event.name}');
-        final MealsModel meals = MealsModel.fromJson(json.data);
-        meals.meals != null
-            ? emit(RecipiesState.loadedSuccess(meals))
+        mealList = MealsModel.fromJson(json.data);
+        mealList?.meals != null
+            ? emit(RecipiesState.loadedSuccess(mealList))
             : emit(RecipiesState.loadedFailed('No meals found'));
       } catch (e) {
         emit(RecipiesState.loadedFailed(e.toString()));
@@ -31,9 +33,11 @@ class RecipiesBloc extends Bloc<RecipiesEvent, RecipiesState> {
     on<GetMealByIdEvent>((event, emit) async {
       emit(RecipiesState.loadingStarted());
       try {
-        final meals =
+        final Response<dynamic> json =
             await _baseApi.getFromApi('${Endpoints.getMealById}${event.id}');
-        emit(RecipiesState.loadedSuccess(meals));
+        final MealsModel meal = MealsModel.fromJson(json.data);
+        selectedMeal = meal;
+        emit(RecipiesState.loadedSuccess(meal));
       } catch (e) {
         emit(RecipiesState.loadedFailed(e.toString()));
       }

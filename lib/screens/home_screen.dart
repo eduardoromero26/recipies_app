@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipies_app/bloc/recipies_bloc.dart';
 import 'package:recipies_app/models/meal_model.dart';
 import 'package:recipies_app/style/font_styles.dart';
+import 'package:recipies_app/utils/route_screens.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,17 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: CustomScrollView(
       slivers: <Widget>[
-        // SliverAppBar(
-        //   expandedHeight: 200.0,
-        //   floating: false,
-        //   flexibleSpace: FlexibleSpaceBar(
-        //     title: const Text('Recipies App'),
-        //     background: Image.network(
-        //       'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg',
-        //       fit: BoxFit.cover,
-        //     ),
-        //   ),
-        // ),
         const SliverToBoxAdapter(
             child: SizedBox(
           height: 20,
@@ -84,21 +75,64 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             }, loadedSuccess: (MealsModel? meals) {
-              return meals?.meals?.isNotEmpty == true
+              return context.read<RecipiesBloc>().mealList != null
                   ? BlocBuilder<RecipiesBloc, RecipiesState>(
                       builder: (context, state) {
                       return SliverList.builder(
                         addAutomaticKeepAlives: true,
-                        itemCount: meals?.meals?.length,
+                        itemCount: context
+                            .read<RecipiesBloc>()
+                            .mealList!
+                            .meals!
+                            .length,
                         itemBuilder: (BuildContext context, int index) {
-                          final Meal? meal = meals!.meals?[index];
                           return ListTile(
-                            title: Text(meal!.strMeal,
+                            title: Text(
+                                context
+                                    .read<RecipiesBloc>()
+                                    .mealList!
+                                    .meals![index]
+                                    .strMeal,
                                 style: TypographyTheme.fontSemi20Px),
-                            subtitle: Text(meal.strCategory,
+                            subtitle: Text(
+                                context
+                                    .read<RecipiesBloc>()
+                                    .mealList!
+                                    .meals![index]
+                                    .strCategory,
                                 style: TypographyTheme.fontRegular16Px),
-                            leading: Image.network(meal.strMealThumb),
+                            leading: Hero(
+                              tag: context
+                                  .read<RecipiesBloc>()
+                                  .mealList!
+                                  .meals![index]
+                                  .idMeal,
+                              child: CachedNetworkImage(
+                                imageUrl: context
+                                    .read<RecipiesBloc>()
+                                    .mealList!
+                                    .meals![index]
+                                    .strMealThumb,
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ),
                             trailing: const Icon(Icons.arrow_forward_ios),
+                            onTap: () {
+                              context.read<RecipiesBloc>().add(GetMealByIdEvent(
+                                  id: context
+                                      .read<RecipiesBloc>()
+                                      .mealList!
+                                      .meals![index]
+                                      .idMeal));
+                              Navigator.pushNamed(context, RouteScreens.details,
+                                  arguments: context
+                                      .read<RecipiesBloc>()
+                                      .mealList!
+                                      .meals![index]);
+                            },
                           );
                         },
                       );
@@ -109,9 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
             }, loadedFailed: (String message) {
-              return SliverFillRemaining(
+              return const SliverFillRemaining(
                 child: Center(
-                  child: Text(message),
+                  child: Text('ERROR STATE'),
                 ),
               );
             });

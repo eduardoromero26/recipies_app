@@ -8,7 +8,7 @@ class BaseApi {
       final response = await dio.get('${dotenv.env['API_URL']}$endpoint');
       return response;
     } on DioException catch (e) {
-      return e.message;
+      return e;
     }
   }
 }
