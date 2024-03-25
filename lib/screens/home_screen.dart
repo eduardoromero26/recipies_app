@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipies_app/bloc/recipies_bloc.dart';
-import 'package:recipies_app/models/categories_model.dart';
 import 'package:recipies_app/models/meal_model.dart';
+import 'package:recipies_app/style/font_styles.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,8 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    context.read<RecipiesBloc>().add(FetchCategoriesEvent());
-    context.read<RecipiesBloc>().add(SearchMealByNameEvent(name: 'egg'));
+    context.read<RecipiesBloc>().add(SearchMealByNameEvent(name: ''));
     super.initState();
   }
 
@@ -26,6 +24,40 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: CustomScrollView(
       slivers: <Widget>[
+        // SliverAppBar(
+        //   expandedHeight: 200.0,
+        //   floating: false,
+        //   flexibleSpace: FlexibleSpaceBar(
+        //     title: const Text('Recipies App'),
+        //     background: Image.network(
+        //       'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg',
+        //       fit: BoxFit.cover,
+        //     ),
+        //   ),
+        // ),
+        const SliverToBoxAdapter(
+            child: SizedBox(
+          height: 20,
+        )),
+        SliverPinnedHeader(
+            child: Container(
+          color: Colors.white,
+          padding: const EdgeInsets.all(16.0),
+          child: TextField(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              hintText: 'Search for meals',
+              hintStyle: TypographyTheme.fontMedium20Px,
+              prefixIcon: Icon(Icons.search),
+            ),
+            onChanged: (value) {
+              context
+                  .read<RecipiesBloc>()
+                  .add(SearchMealByNameEvent(name: value));
+            },
+          ),
+        )),
         BlocConsumer<RecipiesBloc, RecipiesState>(
           listener: (BuildContext context, RecipiesState state) {},
           builder: (context, state) {
@@ -41,47 +73,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: CircularProgressIndicator(),
                 ),
               );
-            }, loadedSuccess: (Map<String, dynamic>? meals, categories) {
-              return MultiSliver(
-                children: [
-                  BlocBuilder<RecipiesBloc, RecipiesState>(
+            }, loadedSuccess: (MealsModel? meals) {
+              return meals?.meals?.isNotEmpty == true
+                  ? BlocBuilder<RecipiesBloc, RecipiesState>(
                       builder: (context, state) {
-                    return SliverList.builder(
-                      addAutomaticKeepAlives: true,
-                      itemCount: categories?['categories'].length ?? 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        final category = MealCategory.fromJson(
-                            categories?['categories'][index]);
-                        return ListTile(
-                          contentPadding: const EdgeInsets.all(8),
-                          title: Text(category.strCategory),
-                          leading: Image.network(category.strCategoryThumb),
-                          trailing: const Icon(Icons.arrow_forward_ios),
-                        );
-                      },
+                      return SliverList.builder(
+                        addAutomaticKeepAlives: true,
+                        itemCount: meals?.meals?.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final Meal? meal = meals!.meals?[index];
+                          return ListTile(
+                            title: Text(meal!.strMeal,
+                                style: TypographyTheme.fontSemi20Px),
+                            subtitle: Text(meal.strCategory,
+                                style: TypographyTheme.fontRegular16Px),
+                            leading: Image.network(meal.strMealThumb),
+                            trailing: const Icon(Icons.arrow_forward_ios),
+                          );
+                        },
+                      );
+                    })
+                  : const SliverFillRemaining(
+                      child: Center(
+                        child: Text('No meals found'),
+                      ),
                     );
-                  }),
-                  BlocBuilder<RecipiesBloc, RecipiesState>(
-                      builder: (context, state) {
-                    return SliverList.builder(
-                      addAutomaticKeepAlives: true,
-                      itemCount: meals?['meals'].length ?? 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        final meal = Meal.fromJson(meals?['meals'][index]);
-                        return ListTile(
-                          title: Text(meal.strMeal),
-                          subtitle: Text(meal.strCategory),
-                          leading: Image.network(meal.strMealThumb),
-                          trailing: const Icon(Icons.arrow_forward_ios),
-                        );
-                      },
-                    );
-                  }),
-                ],
-              );
             }, loadedFailed: (String message) {
-              return Center(
-                child: Text(message),
+              return SliverFillRemaining(
+                child: Center(
+                  child: Text(message),
+                ),
               );
             });
           },

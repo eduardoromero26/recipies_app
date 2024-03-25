@@ -4,7 +4,6 @@ part of 'recipies_bloc.dart';
 class RecipiesState with _$RecipiesState {
   factory RecipiesState.initial() = _Initial;
   factory RecipiesState.loadingStarted() = _LoadingStarted;
-  factory RecipiesState.loadedSuccess(Map<String, dynamic>? meals, categories) =
-      _LoadedSuccess;
+  factory RecipiesState.loadedSuccess(MealsModel? meals) = _LoadedSuccess;
   factory RecipiesState.loadedFailed(String message) = _LoadedFailed;
 }

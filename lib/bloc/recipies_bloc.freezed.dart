@@ -20,8 +20,7 @@ mixin _$RecipiesState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadingStarted,
-    required TResult Function(Map<String, dynamic>? meals, dynamic categories)
-        loadedSuccess,
+    required TResult Function(MealsModel? meals) loadedSuccess,
     required TResult Function(String message) loadedFailed,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,8 +28,7 @@ mixin _$RecipiesState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadingStarted,
-    TResult? Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult? Function(MealsModel? meals)? loadedSuccess,
     TResult? Function(String message)? loadedFailed,
   }) =>
       throw _privateConstructorUsedError;
@@ -38,8 +36,7 @@ mixin _$RecipiesState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadingStarted,
-    TResult Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult Function(MealsModel? meals)? loadedSuccess,
     TResult Function(String message)? loadedFailed,
     required TResult orElse(),
   }) =>
@@ -129,8 +126,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadingStarted,
-    required TResult Function(Map<String, dynamic>? meals, dynamic categories)
-        loadedSuccess,
+    required TResult Function(MealsModel? meals) loadedSuccess,
     required TResult Function(String message) loadedFailed,
   }) {
     return initial();
@@ -141,8 +137,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadingStarted,
-    TResult? Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult? Function(MealsModel? meals)? loadedSuccess,
     TResult? Function(String message)? loadedFailed,
   }) {
     return initial?.call();
@@ -153,8 +148,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadingStarted,
-    TResult Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult Function(MealsModel? meals)? loadedSuccess,
     TResult Function(String message)? loadedFailed,
     required TResult orElse(),
   }) {
@@ -246,8 +240,7 @@ class _$LoadingStartedImpl implements _LoadingStarted {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadingStarted,
-    required TResult Function(Map<String, dynamic>? meals, dynamic categories)
-        loadedSuccess,
+    required TResult Function(MealsModel? meals) loadedSuccess,
     required TResult Function(String message) loadedFailed,
   }) {
     return loadingStarted();
@@ -258,8 +251,7 @@ class _$LoadingStartedImpl implements _LoadingStarted {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadingStarted,
-    TResult? Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult? Function(MealsModel? meals)? loadedSuccess,
     TResult? Function(String message)? loadedFailed,
   }) {
     return loadingStarted?.call();
@@ -270,8 +262,7 @@ class _$LoadingStartedImpl implements _LoadingStarted {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadingStarted,
-    TResult Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult Function(MealsModel? meals)? loadedSuccess,
     TResult Function(String message)? loadedFailed,
     required TResult orElse(),
   }) {
@@ -329,7 +320,7 @@ abstract class _$$LoadedSuccessImplCopyWith<$Res> {
           _$LoadedSuccessImpl value, $Res Function(_$LoadedSuccessImpl) then) =
       __$$LoadedSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Map<String, dynamic>? meals, dynamic categories});
+  $Res call({MealsModel? meals});
 }
 
 /// @nodoc
@@ -344,14 +335,12 @@ class __$$LoadedSuccessImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? meals = freezed,
-    Object? categories = freezed,
   }) {
     return _then(_$LoadedSuccessImpl(
       freezed == meals
-          ? _value._meals
+          ? _value.meals
           : meals // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      freezed == categories ? _value.categories! : categories,
+              as MealsModel?,
     ));
   }
 }
@@ -359,25 +348,14 @@ class __$$LoadedSuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedSuccessImpl implements _LoadedSuccess {
-  _$LoadedSuccessImpl(final Map<String, dynamic>? meals, this.categories)
-      : _meals = meals;
-
-  final Map<String, dynamic>? _meals;
-  @override
-  Map<String, dynamic>? get meals {
-    final value = _meals;
-    if (value == null) return null;
-    if (_meals is EqualUnmodifiableMapView) return _meals;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
+  _$LoadedSuccessImpl(this.meals);
 
   @override
-  final dynamic categories;
+  final MealsModel? meals;
 
   @override
   String toString() {
-    return 'RecipiesState.loadedSuccess(meals: $meals, categories: $categories)';
+    return 'RecipiesState.loadedSuccess(meals: $meals)';
   }
 
   @override
@@ -385,16 +363,11 @@ class _$LoadedSuccessImpl implements _LoadedSuccess {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedSuccessImpl &&
-            const DeepCollectionEquality().equals(other._meals, _meals) &&
-            const DeepCollectionEquality()
-                .equals(other.categories, categories));
+            (identical(other.meals, meals) || other.meals == meals));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_meals),
-      const DeepCollectionEquality().hash(categories));
+  int get hashCode => Object.hash(runtimeType, meals);
 
   @JsonKey(ignore: true)
   @override
@@ -407,11 +380,10 @@ class _$LoadedSuccessImpl implements _LoadedSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadingStarted,
-    required TResult Function(Map<String, dynamic>? meals, dynamic categories)
-        loadedSuccess,
+    required TResult Function(MealsModel? meals) loadedSuccess,
     required TResult Function(String message) loadedFailed,
   }) {
-    return loadedSuccess(meals, categories);
+    return loadedSuccess(meals);
   }
 
   @override
@@ -419,11 +391,10 @@ class _$LoadedSuccessImpl implements _LoadedSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadingStarted,
-    TResult? Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult? Function(MealsModel? meals)? loadedSuccess,
     TResult? Function(String message)? loadedFailed,
   }) {
-    return loadedSuccess?.call(meals, categories);
+    return loadedSuccess?.call(meals);
   }
 
   @override
@@ -431,13 +402,12 @@ class _$LoadedSuccessImpl implements _LoadedSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadingStarted,
-    TResult Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult Function(MealsModel? meals)? loadedSuccess,
     TResult Function(String message)? loadedFailed,
     required TResult orElse(),
   }) {
     if (loadedSuccess != null) {
-      return loadedSuccess(meals, categories);
+      return loadedSuccess(meals);
     }
     return orElse();
   }
@@ -481,12 +451,9 @@ class _$LoadedSuccessImpl implements _LoadedSuccess {
 }
 
 abstract class _LoadedSuccess implements RecipiesState {
-  factory _LoadedSuccess(
-          final Map<String, dynamic>? meals, final dynamic categories) =
-      _$LoadedSuccessImpl;
+  factory _LoadedSuccess(final MealsModel? meals) = _$LoadedSuccessImpl;
 
-  Map<String, dynamic>? get meals;
-  dynamic get categories;
+  MealsModel? get meals;
   @JsonKey(ignore: true)
   _$$LoadedSuccessImplCopyWith<_$LoadedSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -558,8 +525,7 @@ class _$LoadedFailedImpl implements _LoadedFailed {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadingStarted,
-    required TResult Function(Map<String, dynamic>? meals, dynamic categories)
-        loadedSuccess,
+    required TResult Function(MealsModel? meals) loadedSuccess,
     required TResult Function(String message) loadedFailed,
   }) {
     return loadedFailed(message);
@@ -570,8 +536,7 @@ class _$LoadedFailedImpl implements _LoadedFailed {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadingStarted,
-    TResult? Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult? Function(MealsModel? meals)? loadedSuccess,
     TResult? Function(String message)? loadedFailed,
   }) {
     return loadedFailed?.call(message);
@@ -582,8 +547,7 @@ class _$LoadedFailedImpl implements _LoadedFailed {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadingStarted,
-    TResult Function(Map<String, dynamic>? meals, dynamic categories)?
-        loadedSuccess,
+    TResult Function(MealsModel? meals)? loadedSuccess,
     TResult Function(String message)? loadedFailed,
     required TResult orElse(),
   }) {
