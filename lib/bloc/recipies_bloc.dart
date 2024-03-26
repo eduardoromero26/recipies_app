@@ -11,11 +11,10 @@ part 'recipies_state.dart';
 part 'recipies_bloc.freezed.dart';
 
 class RecipiesBloc extends Bloc<RecipiesEvent, RecipiesState> {
-  final BaseApi _baseApi = BaseApi();
   MealsModel? mealList = MealsModel();
   TextEditingController searchFieldController = TextEditingController(text: '');
 
-  RecipiesBloc() : super(RecipiesState.initial()) {
+  RecipiesBloc(BaseApi _baseApi) : super(RecipiesState.initial()) {
     on<SearchMealByNameEvent>((event, emit) async {
       emit(RecipiesState.loadingStarted());
       try {
