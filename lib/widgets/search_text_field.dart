@@ -31,7 +31,7 @@ class SearchTextField extends StatelessWidget {
                       .read<RecipiesBloc>()
                       .add(SearchMealByNameEvent(name: ''));
                 })),
-        onChanged: (value) {
+        onSubmitted: (value) {
           context.read<RecipiesBloc>().add(SearchMealByNameEvent(name: value));
         },
       ),

@@ -1,7 +1,9 @@
-class MealsModel {
+import 'package:equatable/equatable.dart';
+
+class MealsModel extends Equatable {
   final List<Meal>? meals;
 
-  MealsModel({this.meals});
+  const MealsModel({this.meals});
 
   factory MealsModel.fromJson(Map<String, dynamic> parsedJson) {
     if (parsedJson['meals'] != null) {
@@ -9,12 +11,15 @@ class MealsModel {
       List<Meal> mealsList = list.map((i) => Meal.fromJson(i)).toList();
       return MealsModel(meals: mealsList);
     } else {
-      return MealsModel(meals: []);
+      return const MealsModel(meals: []);
     }
   }
+
+  @override
+  List<Object?> get props => [meals];
 }
 
-class Meal {
+class Meal extends Equatable {
   final String idMeal;
   final String strMeal;
   final String? strDrinkAlternate;
@@ -31,7 +36,7 @@ class Meal {
   final String? strCreativeCommonsConfirmed;
   final String? dateModified;
 
-  Meal({
+  const Meal({
     required this.idMeal,
     required this.strMeal,
     this.strDrinkAlternate,
@@ -80,4 +85,23 @@ class Meal {
       dateModified: json['dateModified'],
     );
   }
+
+  @override
+  List<Object?> get props => [
+        idMeal,
+        strMeal,
+        strDrinkAlternate,
+        strCategory,
+        strArea,
+        strInstructions,
+        strMealThumb,
+        strTags,
+        strYoutube,
+        ingredients,
+        measures,
+        strSource,
+        strImageSource,
+        strCreativeCommonsConfirmed,
+        dateModified,
+      ];
 }
