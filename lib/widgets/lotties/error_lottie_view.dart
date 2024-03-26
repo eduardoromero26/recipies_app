@@ -14,7 +14,7 @@ class ErrorLottieView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Lottie.asset('assets/lotties/error_lottie.json',
-            width: 200, height: 200),
+            width: MediaQuery.of(context).size.width * 0.36),
         const SizedBox(height: 40),
         const Text(
           'Error during the network request',
