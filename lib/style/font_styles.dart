@@ -4,12 +4,12 @@ import 'package:recipies_app/style/color_theme.dart';
 class TypographyTheme {
   static const fontSemi24Px = TextStyle(
       fontSize: 24,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.bold,
       fontFamily: 'Rubik',
-      color: ColorsTheme.primaryColor);
+      color: ColorsTheme.headingColor);
   static const fontSemi20Px = TextStyle(
       fontSize: 20,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.bold,
       fontFamily: 'Rubik',
       color: ColorsTheme.headingColor);
   static const fontMedium20Px = TextStyle(
