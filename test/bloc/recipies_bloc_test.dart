@@ -38,7 +38,9 @@ void main() {
       },
       expect: () => [
         RecipiesState.loadingStarted(),
-        RecipiesState.loadedSuccess(MealsModel.fromJson({'meals': []})),
+        RecipiesState.loadedSuccess(
+            // ignore: unnecessary_const
+            MealsModel.fromJson(const {'meals': const []})),
       ],
     );
 
