@@ -23,7 +23,8 @@ class ErrorLottieView extends StatelessWidget {
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
-            context.read<RecipiesBloc>().add(SearchMealByNameEvent(name: ''));
+            context.read<RecipiesBloc>().add(SearchMealByNameEvent(
+                name: context.read<RecipiesBloc>().searchFieldController.text));
           },
           child: const Text('Try again', style: TypographyTheme.fontSemi20Px),
         ),
