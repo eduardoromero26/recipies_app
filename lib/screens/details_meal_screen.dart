@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipies_app/bloc/recipies_bloc.dart';
 import 'package:recipies_app/models/meal_model.dart';
+import 'package:recipies_app/style/color_theme.dart';
 import 'package:recipies_app/style/font_styles.dart';
 
 class DetailsMealScreen extends StatefulWidget {
@@ -25,7 +26,19 @@ class _DetailsMealScreenState extends State<DetailsMealScreen> {
         body: CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-          expandedHeight: 200.0,
+          backgroundColor: ColorsTheme.primaryColor,
+          leading: IconButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+              backgroundColor:
+                  MaterialStateProperty.all(ColorsTheme.primaryColor),
+            ),
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          expandedHeight: MediaQuery.of(context).size.height * 0.4,
           floating: false,
           flexibleSpace: FlexibleSpaceBar(
             background: Hero(
@@ -33,8 +46,10 @@ class _DetailsMealScreenState extends State<DetailsMealScreen> {
               child: CachedNetworkImage(
                 imageUrl: widget.selectedMeal.strMealThumb,
                 fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
+                placeholder: (context, url) => SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: const CircularProgressIndicator()),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
