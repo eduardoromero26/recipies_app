@@ -21,20 +21,17 @@ class SearchTextField extends StatelessWidget {
             hintText: 'Search for meals',
             hintStyle: TypographyTheme.fontMedium20Px,
             prefixIcon: const Icon(Icons.search),
-            suffixIcon:
-                context.read<RecipiesBloc>().searchFieldController.text.isEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          context
-                              .read<RecipiesBloc>()
-                              .add(ResetSearchControllerEvent());
-                          context
-                              .read<RecipiesBloc>()
-                              .add(SearchMealByNameEvent(name: ''));
-                        })
-                    : null),
-        onSubmitted: (value) {
+            suffixIcon: IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () {
+                  context
+                      .read<RecipiesBloc>()
+                      .add(ResetSearchControllerEvent());
+                  context
+                      .read<RecipiesBloc>()
+                      .add(SearchMealByNameEvent(name: ''));
+                })),
+        onChanged: (value) {
           context.read<RecipiesBloc>().add(SearchMealByNameEvent(name: value));
         },
       ),

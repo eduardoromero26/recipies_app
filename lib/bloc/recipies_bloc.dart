@@ -13,7 +13,7 @@ part 'recipies_bloc.freezed.dart';
 class RecipiesBloc extends Bloc<RecipiesEvent, RecipiesState> {
   final BaseApi _baseApi = BaseApi();
   MealsModel? mealList = MealsModel();
-  TextEditingController searchFieldController = TextEditingController();
+  TextEditingController searchFieldController = TextEditingController(text: '');
 
   RecipiesBloc() : super(RecipiesState.initial()) {
     on<SearchMealByNameEvent>((event, emit) async {
@@ -30,7 +30,7 @@ class RecipiesBloc extends Bloc<RecipiesEvent, RecipiesState> {
       }
     });
     on<ResetSearchControllerEvent>((event, emit) {
-      searchFieldController.clear();
+      searchFieldController.text = '';
     });
   }
 }
