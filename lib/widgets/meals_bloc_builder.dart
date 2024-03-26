@@ -28,7 +28,7 @@ class MealsBlocBuilder extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: ListTile(
-                  contentPadding: const EdgeInsets.only(right: 16.0),
+                  contentPadding: const EdgeInsets.only(left: 8.0, right: 16.0),
                   title: Text(
                       context
                           .read<RecipiesBloc>()
