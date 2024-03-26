@@ -163,6 +163,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Error during the network request',
                     style: TypographyTheme.fontSemi20Px,
                   ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      context
+                          .read<RecipiesBloc>()
+                          .add(SearchMealByNameEvent(name: ''));
+                    },
+                    child: const Text('Try again',
+                        style: TypographyTheme.fontSemi20Px),
+                  ),
                 ],
               ));
             });
