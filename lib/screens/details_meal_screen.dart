@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:recipies_app/bloc/recipies_bloc.dart';
 import 'package:recipies_app/models/meal_model.dart';
 import 'package:recipies_app/style/color_theme.dart';
@@ -46,59 +47,23 @@ class _DetailsMealScreenState extends State<DetailsMealScreen> {
               child: CachedNetworkImage(
                 imageUrl: widget.selectedMeal.strMealThumb,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => SizedBox(
-                    height: 40,
-                    width: 40,
-                    child: const CircularProgressIndicator()),
+                placeholder: (context, url) => const SizedBox(
+                    height: 40, width: 40, child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
           ),
         ),
-        BlocConsumer<RecipiesBloc, RecipiesState>(
-          listener: (BuildContext context, RecipiesState state) {},
-          builder: (context, state) {
-            return state.when(initial: () {
-              return const SliverFillRemaining(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }, loadingStarted: () {
-              return const SliverFillRemaining(
-                child: Center(
-                  child: SizedBox(
-                    width: 100.0,
-                    height: 100.0,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 6.0,
-                    ),
-                  ),
-                ),
-              );
-            }, loadedSuccess: (MealsModel? meals) {
-              return BlocBuilder<RecipiesBloc, RecipiesState>(
-                  builder: (context, state) {
-                return SliverToBoxAdapter(
-                  child: widget.selectedMeal.strMeal.isNotEmpty
-                      ? Column(
-                          children: [
-                            Text(widget.selectedMeal.strMeal,
-                                style: TypographyTheme.fontSemi20Px),
-                            SizedBox(height: 1000),
-                          ],
-                        )
-                      : const Text('Meal not found'),
-                );
-              });
-            }, loadedFailed: (String message) {
-              return const SliverFillRemaining(
-                child: Center(
-                  child: Text('ERROR STATE'),
-                ),
-              );
-            });
-          },
+        SliverToBoxAdapter(
+          child: widget.selectedMeal.strMeal.isNotEmpty
+              ? Column(
+                  children: [
+                    Text(widget.selectedMeal.strMeal,
+                        style: TypographyTheme.fontSemi20Px),
+                    const SizedBox(height: 1000),
+                  ],
+                )
+              : const Text('Meal not found'),
         ),
       ],
     ));

@@ -70,17 +70,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             }, loadingStarted: () {
-              return const SliverFillRemaining(
-                child: Center(
-                  child: SizedBox(
-                    width: 100.0,
-                    height: 100.0,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 6.0,
-                    ),
+              return SliverFillRemaining(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Lottie.asset('assets/lotties/progress_lottie.json',
+                      width: MediaQuery.of(context).size.width * 0.5),
+                  const Text(
+                    'Loading meals...',
+                    style: TypographyTheme.fontSemi20Px,
                   ),
-                ),
-              );
+                ],
+              ));
             }, loadedSuccess: (MealsModel? meals) {
               return context.read<RecipiesBloc>().mealList!.meals!.isNotEmpty
                   ? BlocBuilder<RecipiesBloc, RecipiesState>(
@@ -143,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Lottie.asset('assets/lotties/not_found_lottie.json',
-                            width: 320, height: 320),
+                            width: MediaQuery.of(context).size.width * 0.5),
                         Text(
                           'Not meals founded: ${context.read<RecipiesBloc>().searchFieldController.text}',
                           style: TypographyTheme.fontSemi20Px,
@@ -157,9 +158,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: <Widget>[
                   Lottie.asset('assets/lotties/error_lottie.json',
                       width: 200, height: 200),
+                  const SizedBox(height: 40),
                   const Text(
-                    'Error loading meals',
-                    style: TypographyTheme.fontRegular16Px,
+                    'Error during the network request',
+                    style: TypographyTheme.fontSemi20Px,
                   ),
                 ],
               ));
