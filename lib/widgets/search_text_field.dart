@@ -13,26 +13,43 @@ class SearchTextField extends StatelessWidget {
         child: Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16.0),
-      child: TextField(
-        controller: context.read<RecipiesBloc>().searchFieldController,
-        decoration: InputDecoration(
-            border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            hintText: 'Search for meals',
-            hintStyle: TypographyTheme.fontMedium20Px,
-            prefixIcon: const Icon(Icons.search),
-            suffixIcon: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  context
+      child: BlocBuilder<RecipiesBloc, RecipiesState>(
+        builder: (context, state) {
+          return TextField(
+            controller: context.read<RecipiesBloc>().searchFieldController,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              hintText: 'Search for meals',
+              hintStyle: TypographyTheme.fontMedium20Px,
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: context
                       .read<RecipiesBloc>()
-                      .add(ResetSearchControllerEvent());
-                  context
-                      .read<RecipiesBloc>()
-                      .add(SearchMealByNameEvent(name: ''));
-                })),
-        onSubmitted: (value) {
-          context.read<RecipiesBloc>().add(SearchMealByNameEvent(name: value));
+                      .searchFieldController
+                      .text
+                      .isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        context
+                            .read<RecipiesBloc>()
+                            .searchFieldController
+                            .text = '';
+                        context.read<RecipiesBloc>().add(SearchMealByNameEvent(
+                            name: context
+                                .read<RecipiesBloc>()
+                                .searchFieldController
+                                .text));
+                      },
+                    )
+                  : null,
+            ),
+            onSubmitted: (value) {
+              context
+                  .read<RecipiesBloc>()
+                  .add(SearchMealByNameEvent(name: value));
+            },
+          );
         },
       ),
     ));

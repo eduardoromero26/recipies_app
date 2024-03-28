@@ -10,12 +10,10 @@ import 'base_api_test.mocks.dart';
 @GenerateMocks([BaseApi])
 void main() {
   group('BaseApi', () {
-    late BaseApi api;
     late MockBaseApi mockApi;
 
     setUp(() {
       mockApi = MockBaseApi();
-      api = BaseApi();
     });
 
     test('getFromApi returns correct data on success', () async {

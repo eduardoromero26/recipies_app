@@ -18,7 +18,6 @@ class RouteGenerator {
         );
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
-      // return MaterialPageRoute(builder: (_) => ErrorScreen());
     }
   }
 }
